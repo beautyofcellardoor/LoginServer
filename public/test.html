@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Server</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <script type="text/javascript">
+
+    function auth(){
+    var params = "name=Katie&password=1234";
+
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', "http://localhost:3000/api/authenticate", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(params);
+
+    xhr.onreadystatechange = processRequest;
+
+    function processRequest(e){
+      var response = xhr.response;
+      var responseJSON = JSON.parse(response);
+      console.log(responseJSON["token"]);
+      var userToken = responseJSON["token"];
+      // console.log(xhr.response);
+      // console.log(JSON.parse(xhr.responseText));
+      document.cookie = `auth-token=${userToken}`;
+    }
+  }
+
+    </script>
+
+
+</head>
+
+<body>
+
+
+    <label><b>Username</b></label>
+    <input type="text" placeholder="Username" name="uname" required>
+    <label><b>Password</b></label>
+    <input type="text" placeholder="Password" name="psw" required>
+    <button type="submit" name="btn" onClick="auth();">Login</button>
+
+
+    <!-- our root contatiner -->
+    <div id="react-root"></div>
+    <!-- transpiled jsx -->
+    <script src="js/bundle.js"></script>
+</body>
+</html>
